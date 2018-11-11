@@ -1,11 +1,28 @@
 #include "Room.h"
-#include <string.h>
-void printRoom(Room room){
+#include <stdlib.h>
+#include <windows.h>
+void Room::roomCopy(Room src) {
+	int i, j;
+	for (i = 0; i < ROOM_NUM; i++) {
+		for (j = 0; j < ROOM_NUM; j++) {
+			pos[i][j] = src.pos[i][j];
+		}
+	}
+}
+void Room::roomFrame() {
+	for (int j = 0; j < ROOM_NUM; j++) {
+		printf("+--");
+	}
+	printf("+\n");
+}
+void Room::printRoom(){
 	int i, j;
 	for (i = 0; i < ROOM_NUM; i++){
-		printf("+--+--+--+--+\n|");
+		roomFrame();
+		printf("|");
+
 		for (j = 0; j < ROOM_NUM; j++){
-			switch (room.pos[i][j])
+			switch (pos[i][j])
 			{
 			case ENEMY:
 				printf("%2c|", 'O');
@@ -27,7 +44,21 @@ void printRoom(Room room){
 			case 'f':
 			case 'g':
 			case 'h':
-				printf("%2cl", room.pos[i][j]);
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+				printf("%2cl",pos[i][j]);
 				break;
 			default:
 				printf("%2c|", '  ');
@@ -35,7 +66,7 @@ void printRoom(Room room){
 			}
 		}
 		printf("\n");
+		
 	}
-	printf("+--+--+--+--+\n");
+	roomFrame();
 }
-

@@ -1,6 +1,6 @@
-#include <stdio.h>
+#pragma once
 #include "Room.h"
-struct Dungeon{
-	struct Room room[11];
-}; typedef struct Dungeon Dungeon;
-Dungeon initDungeon();
+typedef struct Dungeon {
+	Room room[11];
+	void initDungeon();
+} Dungeon;
