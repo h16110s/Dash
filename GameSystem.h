@@ -9,7 +9,7 @@ typedef struct GameSystem {
 	char sysMsg[SYS_MSG_MAXLENGTH];
 	//GameSystem Function=======
 	void init();
-	void disp();
+	void display();
 	char inputKeyBoard();
 	void printMenu();
 	void printRule();

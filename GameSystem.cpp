@@ -11,22 +11,20 @@ void GameSystem::init() {
 	strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "");
 }
 
-void GameSystem::disp(){
+void GameSystem::display(){
 	COORD coord;
 	HANDLE hStdout;
 
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-
 	coord.X = 0;
 	coord.Y = MAX_WINDOW_HEIGHT - 4;
-
 	SetConsoleCursorPosition(hStdout, coord);
 	printf("==========================================================================\n");
 	systemMessage();
 }
 
 void GameSystem::mainLoop() {
-	disp();
+	display();
 	while ( !Clear && hero.hp > 0) {
 		//‘€ì
 		if (hero.move(inputKeyBoard())) {
@@ -55,7 +53,7 @@ void GameSystem::mainLoop() {
 			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "‘OŒ©‚Ä•à‚¯");
 		}
 		system("cls");
-		disp();
+		display();
 	}
 }
 
