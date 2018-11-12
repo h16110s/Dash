@@ -8,11 +8,10 @@ int main(void)
 
 	//printMenu();
 	system("cls");
-	printf("\n");
 
 	gs.mainLoop();
 	system("cls");
-	printf("ƒQ[ƒ€I—¹‚Å‚·\n");
+	printf("ã‚²ãƒ¼ãƒ çµ‚äº†ã§ã™\n");
 
 	return 0;
 }
