@@ -8,6 +8,7 @@ void GameSystem::init() {
 	dungeon.initDungeon();
 	hero.initHero();
 	Clear = false;
+	submit = false;
 	strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "");
 }
 
@@ -28,15 +29,20 @@ void GameSystem::display(){
 		switch (coord.Y)
 		{
 		case 0:
-			printf("|残り行動回数 : %4d", hero.hp);
+			printf("|課題の提出状況：");
+			if (submit){ printf("提出済み");}
+			else { printf("未提出"); }
 			break;
 		case 1:
+			printf("|残り行動回数 : %4d", hero.hp);
+			break;
+		case 2:
 			printf("|所持ポーション数: %4d", hero.potion);
 			break;
-		case 2 :
+		case 3 :
 			printf("|追加課題数	: %4d", hero.issue);	
 			break;
-		case 3:
+		case 4:
 			printf("|現在いるフロア　: %4d", hero.roomNum);
 			break;
 		default:
@@ -73,14 +79,29 @@ void GameSystem::mainLoop() {
 				hero.issue++;
 				dungeon.room[hero.roomNum].eliminateObject(hero.x, hero.y);
 				break;
+			case 'W': //WifiSpot
+				if (hero.charge > 80){
+					strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "課題の提出をしますか? Y/N -> ");
+					hero.action(dungeon.room[hero.roomNum].pos[hero.y][hero.x]);
+					system("cls");
+					display();
+					if (getchar() == 'Y' || getchar() == 'y'){
+						submit = true;
+					}
+					else continue;
+				}
+				else {
+					strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "PCを充電しないと提出できんな");
+				}
+				break;
 			default:
-				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "何もなかった");
+				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "何もなかった\n");
 				break;
 			}
 			hero.action(dungeon.room[hero.roomNum].pos[hero.y][hero.x]);
 		}
 		else {
-			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "前見て歩け");
+			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "前見て歩け\n");
 		}
 		system("cls");
 		display();

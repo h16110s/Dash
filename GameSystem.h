@@ -8,6 +8,7 @@ typedef struct GameSystem {
 	Dungeon dungeon;
 	Hero hero;
 	bool Clear;
+	bool submit;
 	char sysMsg[SYS_MSG_MAXLENGTH];
 	//GameSystem Function=======
 	void init();

@@ -4,31 +4,32 @@ void Hero::initHero(){
 	x = 0;
 	y = 0;
 	roomNum = busStop;
+	charge = 100;
 	potion = 2;
 	issue = 0;
 }
 
 bool Hero::move( char key){
-	//ä¸Šä¸‹å·¦å³ã«ç§»å‹•
-	//4*4ä»¥å†…ã§ç§»å‹•(0 <= x < 4 && 0 <= y < 4)
+	//ã‰º¶‰E‚ÉˆÚ“®
+	//4*4ˆÈ“à‚ÅˆÚ“®(0 <= x < 4 && 0 <= y < 4)
 	switch (key){
-		case 'w'://ä¸Š
-			if (y -1 < 0)return false;
+		case 'w'://ã
+			if (y == 0)return false;
 			y--;
 			break;
 
-		case 's'://ä¸‹
-			if (y == 3)return false;
+		case 's'://‰º
+			if (y == ROOM_NUM)return false;
 			y++;
 			break;
 
-		case 'a'://å·¦
+		case 'a'://¶
 			if (x == 0)return false;
 			x--;
 			break;
 
-		case 'd'://å³
-			if (x == 3)return false;
+		case 'd'://‰E
+			if (x == ROOM_NUM)return false;
 			x++;
 			break;
 	}
@@ -154,11 +155,11 @@ void Hero::action(char mark){
 }
 
 void Hero::printState(){
-	printf("æ®‹ã‚Šè¡Œå‹•å›æ•°    : %d\n", hp);
-	printf("æ‰€æŒãƒãƒ¼ã‚·ãƒ§ãƒ³æ•°: %d\n", potion);
-	printf("è¿½åŠ èª²é¡Œæ•°		: %d\n", issue);
-	printf("ç¾åœ¨ã„ã‚‹ãƒ•ãƒ­ã‚¢ã€€: %d\n", roomNum);
-	//printf("åº§è¡¨			xï¼š%d  yï¼š%d\n", x, y);
+	printf("c‚ès“®‰ñ”    : %d\n", hp);
+	printf("Šƒ|[ƒVƒ‡ƒ“”: %d\n", potion);
+	printf("’Ç‰Á‰Û‘è”		: %d\n", issue);
+	printf("Œ»İ‚¢‚éƒtƒƒA@: %d\n", roomNum);
+	//printf("À•\			xF%d  yF%d\n", x, y);
 }
 
 

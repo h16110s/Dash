@@ -20,7 +20,6 @@ void Room::printRoom(){
 	for (i = 0; i < ROOM_NUM; i++){
 		roomFrame();
 		printf("|");
-
 		for (j = 0; j < ROOM_NUM; j++){
 			switch (pos[i][j])
 			{
@@ -42,7 +41,6 @@ void Room::printRoom(){
 			}
 		}
 		printf("\n");
-		
 	}
 	roomFrame();
 }
