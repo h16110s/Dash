@@ -6,6 +6,7 @@
 #define MAX_WINDOW_WIDTH 100
 #define MAX_WINDOW_HEIGHT 30
 //=======================
+#define NONE 0
 #define ENEMY 1
 #define ISSUE 2
 #define HEAL 3

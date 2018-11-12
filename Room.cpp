@@ -25,43 +25,19 @@ void Room::printRoom(){
 			switch (pos[i][j])
 			{
 			case ENEMY:
-				printf("%2c|", 'O');
-				break;
 			case ISSUE:
-				printf("%2c|", 'O');
-				break;
 			case HEAL:
-				printf("%2c|", 'O');
+				printf("%2c|", '@');
 				break;
+
 			case HERO:
 				printf("%2c|", 'H');
 				break;
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-				printf("%2cl",pos[i][j]);
+			case NONE:
+				printf("%2c|", '  ');
 				break;
 			default:
-				printf("%2c|", '  ');
+				printf("%2cl",pos[i][j]);
 				break;
 			}
 		}
