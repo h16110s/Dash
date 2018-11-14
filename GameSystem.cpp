@@ -94,6 +94,8 @@ void GameSystem::mainLoop() {
 					strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "PC‚ğ[“d‚µ‚È‚¢‚Æ’ño‚Å‚«‚ñ‚È");
 				}
 				break;
+			case 'C': //ChargeSpot
+				break;
 			default:
 				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "‰½‚à‚È‚©‚Á‚½\n");
 				break;
@@ -174,6 +176,7 @@ char GameSystem::inputKeyBoard() {
 			case 's':
 			case 'a':
 			case 'd':
+			case 'h':
 				return (char)ch;
 			default:
 				continue;

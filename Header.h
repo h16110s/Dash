@@ -5,6 +5,7 @@
 #define SYS_MSG_MAXLENGTH 100
 #define MAX_WINDOW_WIDTH 100
 #define MAX_WINDOW_HEIGHT 30
+#define USING_POTION_HP 30
 //=======================
 #define NONE 0
 #define ENEMY 1

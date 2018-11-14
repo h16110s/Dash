@@ -5,10 +5,10 @@ enum school {
 	busStop,		//2
 	plaza,			//3
 	chargeSpot,		//4
-	rightPath1,		//5
 	leftPath1,		//6
-	rightPath2,		//7
+	rightPath1,		//5
 	leftPath2,		//8
+	rightPath2,		//7
 	katakura,		//9
 	bossRoom,		//10
 };

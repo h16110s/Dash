@@ -12,28 +12,37 @@ void Hero::initHero(){
 bool Hero::move( char key){
 	//ã‰º¶‰E‚ÉˆÚ“®
 	//4*4ˆÈ“à‚ÅˆÚ“®(0 <= x < 4 && 0 <= y < 4)
-	switch (key){
-		case 'w'://ã
-			if (y == 0)return false;
-			y--;
-			break;
+	switch (key) {
+	case 'w'://ã
+		if (y == 0)return false;
+		y--;
+		hp--;
+		break;
 
-		case 's'://‰º
-			if (y == ROOM_NUM)return false;
-			y++;
-			break;
+	case 's'://‰º
+		if (y == ROOM_NUM -1)return false;
+		y++;
+		hp--;
+		break;
 
-		case 'a'://¶
-			if (x == 0)return false;
-			x--;
-			break;
+	case 'a'://¶
+		if (x == 0)return false;
+		x--;
+		hp--;
+		break;
 
-		case 'd'://‰E
-			if (x == ROOM_NUM)return false;
-			x++;
-			break;
+	case 'd'://‰E
+		if (x == ROOM_NUM -1 )return false;
+		x++;
+		hp--;
+		break;
+
+	case 'h'://‰ñ•œ
+		if (potion == 0) return false;
+		potion--;
+		hp += USING_POTION_HP;
+		break;
 	}
-	hp--;
 	return true;
 }
 
@@ -82,20 +91,24 @@ void Hero::action(char mark){
 		//Gate25
 		case 'i':
 			roomNum = leftPath1;
+			x = 3;
 			y = 0;
 			break;
 		case 'j':
 			roomNum = plaza;
+			x = 1;
 			y = 3;
 			break;
 
 		//Gate26
 		case 'k':
 			roomNum = rightPath1;
+			x = 0;
 			y = 0;
 			break;
 		case 'l':
 			roomNum = plaza;
+			x = 2;
 			y = 3;
 			break;
 
@@ -122,20 +135,24 @@ void Hero::action(char mark){
 		//Gate59
 		case 'q':
 			roomNum = katakura;
+			x = 1;
 			y = 0;
 			break;
 		case 'r':
 			roomNum = leftPath2;
+			x = 3;
 			y = 3;
 			break;
 
 		//Gate89
 		case 's':
 			roomNum = katakura;
+			x = 2;
 			y = 0;
 			break;
 		case 't':
 			roomNum = rightPath2;
+			x = 0;
 			y = 3;
 			break;
 

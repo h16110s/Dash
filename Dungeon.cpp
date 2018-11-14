@@ -53,22 +53,22 @@ void Dungeon::initDungeon(){
 	room[4].pos[0][3] = 2;
 	room[4].pos[3][3] = 'C';
 
+	room[5].pos[0][3] = 'j';
 	room[5].pos[1][0] = 2;
-	room[5].pos[3][1] = 'j';
 	room[5].pos[1][2] = 1;
 	room[5].pos[3][2] = 3;
-	room[5].pos[0][3] = 'm';
+	room[5].pos[3][0] = 'm';
 
-	room[6].pos[0][0] = 'l';
-	room[6].pos[3][0] = 1;
+	room[6].pos[0][1] = 'l';
 	room[6].pos[1][1] = 1;
 	room[6].pos[1][2] = 1;
-	room[6].pos[3][2] = 'o';
 	room[6].pos[2][3] = 1;
+	room[6].pos[3][0] = 1;
+	room[6].pos[3][2] = 'o';
 
+	room[7].pos[0][0] = 'n';
 	room[7].pos[1][0] = 1;
 	room[7].pos[2][0] = 3;
-	room[7].pos[0][1] = 'n';
 	room[7].pos[1][2] = 1;
 	room[7].pos[0][3] = 2;
 	room[7].pos[3][3] = 'q';
