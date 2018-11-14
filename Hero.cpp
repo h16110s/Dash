@@ -1,4 +1,7 @@
 #include "Hero.h"
+
+//Heroã®åˆæœŸåŒ–
+//é½Šè—¤è£•ä»
 void Hero::initHero(){
 	hp = 30;
 	x = 0;
@@ -9,35 +12,38 @@ void Hero::initHero(){
 	issue = 0;
 }
 
+
+//ç§»å‹•ç”¨ã®é–¢æ•°
+//é‡‘å­å‡Œä¹Ÿ
 bool Hero::move( char key){
-	//ã‰º¶‰E‚ÉˆÚ“®
-	//4*4ˆÈ“à‚ÅˆÚ“®(0 <= x < 4 && 0 <= y < 4)
+	//ä¸Šä¸‹å·¦å³ã«ç§»å‹•
+	//4*4ä»¥å†…ã§ç§»å‹•(0 <= x < 4 && 0 <= y < 4)
 	switch (key) {
-	case 'w'://ã
+	case 'w'://ä¸Š
 		if (y == 0)return false;
 		y--;
 		hp--;
 		break;
 
-	case 's'://‰º
+	case 's'://ä¸‹
 		if (y == ROOM_NUM -1)return false;
 		y++;
 		hp--;
 		break;
 
-	case 'a'://¶
+	case 'a'://å·¦
 		if (x == 0)return false;
 		x--;
 		hp--;
 		break;
 
-	case 'd'://‰E
+	case 'd'://å³
 		if (x == ROOM_NUM -1 )return false;
 		x++;
 		hp--;
 		break;
 
-	case 'h'://‰ñ•œ
+	case 'h'://å›å¾©
 		if (potion == 0) return false;
 		potion--;
 		hp += USING_POTION_HP;
@@ -46,6 +52,8 @@ bool Hero::move( char key){
 	return true;
 }
 
+//ãƒãƒƒãƒ—ç§»å‹•ç”¨ã®é–¢æ•°
+//é½Šè—¤è£•ä»
 void Hero::action(char mark){
 	switch (mark){
 		//Gate01
@@ -171,12 +179,14 @@ void Hero::action(char mark){
 
 }
 
+//Heroæƒ…å ±ã®è¡¨ç¤º
+//è—¤æœ¬å‘¨å¹³
 void Hero::printState(){
-	printf("c‚ès“®‰ñ”    : %d\n", hp);
-	printf("Šƒ|[ƒVƒ‡ƒ“”: %d\n", potion);
-	printf("’Ç‰Á‰Û‘è”		: %d\n", issue);
-	printf("Œ»İ‚¢‚éƒtƒƒA@: %d\n", roomNum);
-	//printf("À•\			xF%d  yF%d\n", x, y);
+	printf("æ®‹ã‚Šè¡Œå‹•å›æ•°    : %d\n", hp);
+	printf("æ‰€æŒãƒãƒ¼ã‚·ãƒ§ãƒ³æ•°: %d\n", potion);
+	printf("è¿½åŠ èª²é¡Œæ•°		: %d\n", issue);
+	printf("ç¾åœ¨ã„ã‚‹ãƒ•ãƒ­ã‚¢ã€€: %d\n", roomNum);
+	//printf("åº§è¡¨			xï¼š%d  yï¼š%d\n", x, y);
 }
 
 

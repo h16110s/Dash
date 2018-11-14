@@ -1,9 +1,10 @@
 #include "Dungeon.h"
 //1:敵
 //2:追加課顁E
-//3:回復アイチE��
+//3:回復アイチEΒ
 
-//藤本
+//藤本周平
+//ダンジョンの初期化の関数
 void Dungeon::initDungeon(){
 	int i, j, k;
 	for (i = 0; i < 11; i++){
