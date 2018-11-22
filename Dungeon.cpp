@@ -1,10 +1,10 @@
 #include "Dungeon.h"
-//1:æ•µ
-//2:è¿½åŠ èª²é¡E
-//3:å›žå¾©ã‚¢ã‚¤ãƒEÎ’
+//1:“G
+//2:’Ç‰Á‰ÛE
+//3:‰ñ•œƒAƒCƒ`Eƒ 
 
-//è—¤æœ¬å‘¨å¹³
-//ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ã®åˆæœŸåŒ–ã®é–¢æ•°
+//“¡–{Žü•½
+//ƒ_ƒ“ƒWƒ‡ƒ“‚Ì‰Šú‰»‚ÌŠÖ”
 void Dungeon::initDungeon(){
 	int i, j, k;
 	for (i = 0; i < 11; i++){

@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #define ROOM_NUM 4
 #define OBJECT 5
 #define MAX_ROOM 11
@@ -6,6 +7,8 @@
 #define MAX_WINDOW_WIDTH 100
 #define MAX_WINDOW_HEIGHT 30
 #define USING_POTION_HP 30
+#define MAX_QUIZ_NUM 10
+#define MAX_STRINGS 100;
 //=======================
 #define NONE 0
 #define ENEMY 1
@@ -18,6 +21,7 @@
 #include <conio.h>
 #include <string.h>
 #include <windows.h>
+#include <time.h>
 #include "enumRoomName.h"
 
 

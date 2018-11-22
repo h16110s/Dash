@@ -1,8 +1,8 @@
 #include "Room.h"
 #include <stdlib.h>
 #include <windows.h>
-//éƒ¨å±‹ã‚³ãƒ”ãƒ¼é–¢æ•°
-//é½Šè—¤è£•ä»
+//•”‰®ƒRƒs[ŠÖ”
+//ê“¡—Tm
 void Room::roomCopy(Room src) {
 	int i, j;
 	for (i = 0; i < ROOM_NUM; i++) {
@@ -11,16 +11,16 @@ void Room::roomCopy(Room src) {
 		}
 	}
 }
-//éƒ¨å±‹æ ã®ç”Ÿæˆ
-//é½Šè—¤è£•ä»
+//•”‰®˜g‚Ì¶¬
+//ê“¡—Tm
 void Room::roomFrame() {
 	for (int j = 0; j < ROOM_NUM; j++) {
 		printf("+--");
 	}
 	printf("+\n");
 }
-//éƒ¨å±‹ã®è¡¨ç¤º
-//é½Šè—¤è£•ä»
+//•”‰®‚Ì•\¦
+//ê“¡—Tm
 void Room::printRoom(){
 	int i, j;
 	for (i = 0; i < ROOM_NUM; i++){

@@ -11,7 +11,13 @@ int main(void)
 
 	gs.mainLoop();
 	system("cls");
-	printf("繧ｲ繝ｼ繝邨ゆｺ�縺ｧ縺兔n");
+	if (gs.Clear){
+		printf("ゲームクリア！！\n");
+	}
+	else {
+		printf("ゲームオーバー・・・\n");
+	}
+	printf("ゲーム終了です\n");
 
 	return 0;
 }

@@ -1,10 +1,34 @@
-#include "GameSystem.h"
+﻿#include "GameSystem.h"
 
 //表示用
 //齊藤裕仁
 void GameSystem::systemMessage() {
 	printf("イベント：%s", sysMsg);
-	strcpy_s(sysMsg,SYS_MSG_MAXLENGTH ,"");
+	strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "");
+}
+
+//Quizファイルの初期化を行う
+//金子凌也
+void GameSystem::Quiz_Set(){
+	int c, i, j;
+	FILE *fp;
+	fopen_s(&fp, "./Quiz.txt", "r");
+	if (fp == NULL){
+		printf("クイズファイルがありません。\n");
+		exit(0);
+	}
+
+	for (i = 0; i < MAX_QUIZ_NUM; i++){
+		//問題文
+		fscanf(fp, "%s", &(quiz[i].question));
+		for (j = 0; j < 4; j++){
+			//選択肢(*4)
+			fscanf(fp, "%s", &(quiz[i].select[j]));
+		}
+		//正解の番号(1~4)
+		fscanf(fp, "%d", &(quiz[i].answer));
+		quiz[i].already = false;
+	}
 }
 
 
@@ -15,7 +39,9 @@ void GameSystem::init() {
 	hero.initHero();
 	Clear = false;
 	submit = false;
+	Quiz_Set();
 	strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "");
+	srand((unsigned)time(NULL));
 }
 
 
@@ -39,7 +65,7 @@ void GameSystem::display(){
 		{
 		case 0:
 			printf("|課題の提出状況：");
-			if (submit){ printf("提出済み");}
+			if (submit){ printf("提出済み"); }
 			else { printf("未提出"); }
 			break;
 		case 1:
@@ -48,11 +74,14 @@ void GameSystem::display(){
 		case 2:
 			printf("|所持ポーション数: %4d", hero.potion);
 			break;
-		case 3 :
-			printf("|追加課題数	: %4d", hero.issue);	
+		case 3:
+			printf("|追加課題数	: %4d", hero.issue);
 			break;
 		case 4:
 			printf("|現在いるフロア　: %4d", hero.roomNum);
+			break;
+		case 5:
+			printf("|PCの残りバッテリー: %4d％ ", hero.charge * 10);
 			break;
 		default:
 			printf("|");
@@ -73,7 +102,7 @@ void GameSystem::display(){
 //齊藤裕仁
 void GameSystem::mainLoop() {
 	display();
-	while ( !Clear && hero.hp > 0) {
+	while (!Clear && hero.hp > 0) {
 		//操作
 		if (hero.move(inputKeyBoard())) {
 			switch (dungeon.room[hero.roomNum].pos[hero.y][hero.x]) {
@@ -107,6 +136,8 @@ void GameSystem::mainLoop() {
 				}
 				break;
 			case 'C': //ChargeSpot
+				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "このPC・・・動くぞ！？");
+				hero.charge = 100;
 				break;
 			default:
 				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "何もなかった\n");
@@ -119,6 +150,11 @@ void GameSystem::mainLoop() {
 		}
 		system("cls");
 		display();
+		//ボス部屋ならば
+		if (hero.roomNum == bossRoom){
+				system("cls");
+				Clear = battle();
+		}
 	}
 }
 
@@ -166,6 +202,68 @@ char GameSystem::inputKeyBoard() {
 		}
 	}
 }
+Quiz GameSystem::getQuiz(){
+	for (int i = 0; i < MAX_QUIZ_NUM; i++){
+		int n = rand() % MAX_QUIZ_NUM;
+		if (quiz[n].already){
+			continue;
+		}
+		else {
+			quiz[n].already = true;
+			//printf("%d", n);
+			return quiz[n];
+		}
+	}
+	printf("問題足りないっすわ");
+}
+
+
+bool GameSystem::battle(){
+	Quiz q;
+	int bossHP = 100;
+	int count = 0;
+	while (1){
+		if (bossHP <= 0)	return true;
+		else if (hero.hp <= 0){
+			Clear = true;
+			return false;
+		}
+
+		hero.printState();
+		printf("========================================\n");
+		printf("ボスHP：%4d\n", bossHP);
+		//問題の表示＝＝＝＝＝＝
+		q = getQuiz();
+		printf("\n");
+		q.Quiz_View();
+		//==============
+
+		//入力待ち＝＝＝＝＝＝＝
+		int input;
+		scanf_s("%d", &input);
+		//==============
+
+		//答えとの照合＝＝＝＝＝＝
+		//あってるー＞ボスのHPを減らす
+		//間違ってるー＞主人公のHPを減らす
+		if (input == q.answer){
+			printf("正解！\n");
+			bossHP -= 15;
+		}
+		else {
+			printf("残念\n");
+			//printf("%d\n", q.answer);
+			//printf("%d\n",input);
+			hero.damage(10);
+		}
+		//==============
+		getchar();
+		fflush(stdin);
+		system("cls");
+	}
+}
+
+
 
 //ゲームのルール表示
 //松本風雅

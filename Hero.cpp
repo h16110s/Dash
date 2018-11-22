@@ -6,7 +6,7 @@ void Hero::initHero(){
 	hp = 30;
 	x = 0;
 	y = 0;
-	roomNum = busStop;
+	roomNum = katakura;
 	charge = 100;
 	potion = 2;
 	issue = 0;
@@ -176,16 +176,15 @@ void Hero::action(char mark){
 		default:
 			break;
 	}
-
 }
 
 //Hero情報の表示
 //藤本周平
 void Hero::printState(){
-	printf("残り行動回数    : %d\n", hp);
-	printf("所持ポーション数: %d\n", potion);
-	printf("追加課題数		: %d\n", issue);
-	printf("現在いるフロア　: %d\n", roomNum);
+	printf("hp   : %d\n", hp);
+	printf("potion: %d\n", potion);
+	printf("issue	: %d\n", issue);
+	printf("floor : %d\n", roomNum);
 	//printf("座表			x：%d  y：%d\n", x, y);
 }
 
