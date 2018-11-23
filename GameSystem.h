@@ -23,5 +23,7 @@ typedef struct GameSystem {
 	bool battle();
 	Quiz getQuiz();
 	void Quiz_Set();
+	int calcScore();
+	bool getIs();
 	//=====================
 } GameSystem;

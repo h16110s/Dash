@@ -1,12 +1,12 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-#define ROOM_NUM 4
+#define ROOM_NUM 6
 #define OBJECT 5
 #define MAX_ROOM 11
 #define SYS_MSG_MAXLENGTH 100
 #define MAX_WINDOW_WIDTH 100
-#define MAX_WINDOW_HEIGHT 30
-#define USING_POTION_HP 30
+#define MAX_WINDOW_HEIGHT 20
+#define USING_POTION_HP	15
 #define MAX_QUIZ_NUM 10
 #define MAX_STRINGS 100;
 //=======================

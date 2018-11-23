@@ -32,11 +32,11 @@ void Room::printRoom(){
 			case ENEMY:
 			case ISSUE:
 			case HEAL:
-				printf("%2c|", '@');
+				printf("%2s|", "Åõ");
 				break;
 
 			case HERO:
-				printf("%2c|", 'H');
+				printf("%2s|", "Åö");
 				break;
 			case NONE:
 				printf("%2c|", '  ');

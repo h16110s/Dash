@@ -81,7 +81,7 @@ void GameSystem::display(){
 			printf("|現在いるフロア　: %4d", hero.roomNum);
 			break;
 		case 5:
-			printf("|PCの残りバッテリー: %4d％ ", hero.charge * 10);
+			printf("|PCの残りバッテリー: %4d％ ", hero.charge );
 			break;
 		default:
 			printf("|");
@@ -104,7 +104,11 @@ void GameSystem::mainLoop() {
 	display();
 	while (!Clear && hero.hp > 0) {
 		//操作
-		if (hero.move(inputKeyBoard())) {
+		int heroAction = hero.move(inputKeyBoard());
+		if (heroAction == HEAL){
+			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "回復しました。\n");
+		}
+		else if (heroAction != 0) {
 			switch (dungeon.room[hero.roomNum].pos[hero.y][hero.x]) {
 			case ENEMY://敵だったら
 				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "邪魔をされた　行動可能回数-2\n");
@@ -122,12 +126,14 @@ void GameSystem::mainLoop() {
 				break;
 			case 'W': //WifiSpot
 				if (hero.charge > 80){
+					fflush(stdin);
 					strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "課題の提出をしますか? Y/N -> ");
 					hero.action(dungeon.room[hero.roomNum].pos[hero.y][hero.x]);
 					system("cls");
 					display();
 					if (getchar() == 'Y' || getchar() == 'y'){
 						submit = true;
+						strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "課題が提出されました。");
 					}
 					else continue;
 				}
@@ -145,16 +151,18 @@ void GameSystem::mainLoop() {
 			}
 			hero.action(dungeon.room[hero.roomNum].pos[hero.y][hero.x]);
 		}
-		else {
-			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "前見て歩け\n");
+		else{ 
+			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "前見て歩け\n"); 
 		}
+
 		system("cls");
 		display();
 		//ボス部屋ならば
-		if (hero.roomNum == bossRoom){
+		if (hero.roomNum == bossRoom && submit){
 				system("cls");
 				Clear = battle();
 		}
+
 	}
 }
 
@@ -194,6 +202,7 @@ char GameSystem::inputKeyBoard() {
 			case 'a':
 			case 'd':
 			case 'h':
+			case 'm':
 				return (char)ch;
 			default:
 				continue;
@@ -298,3 +307,42 @@ void GameSystem::printRule() {
 }
 
 
+
+
+int GameSystem::calcScore(){
+	int scoreHP = (hero.hp * 5);
+	printf("scoreHP : %d\n", scoreHP);
+	int scorePotion = (hero.potion * USING_POTION_HP * 8);
+	printf("scorePotion : %d\n", scorePotion);
+	int scoreIssue = (hero.issue * 10);
+	printf("scoreIssue : %d\n", scoreIssue);
+	int scoreSubmit= 0;
+	if (submit){
+		scoreSubmit = 200;
+	}
+	printf("scoreSubmit: %d\n", scoreSubmit);
+	int scoreClear = 0;
+	if (Clear){
+		scoreClear = 100;
+	}
+	printf("scoreClear: %d\n", scoreClear);
+	return scoreHP + scorePotion + scoreIssue + scoreSubmit + scoreClear;
+}
+
+bool GameSystem::getIs(){
+	while (true){
+		char input = getchar();
+		switch (input){
+		case 'y':
+		case 'Y':
+			return true;
+			break;
+		case 'n':
+		case 'N':
+			break;
+		default:
+			continue;
+		}
+	}
+	return false;
+}

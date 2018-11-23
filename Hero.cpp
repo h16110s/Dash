@@ -6,8 +6,8 @@ void Hero::initHero(){
 	hp = 30;
 	x = 0;
 	y = 0;
-	roomNum = katakura;
-	charge = 100;
+	roomNum = busStop;
+	charge = 0;
 	potion = 2;
 	issue = 0;
 }
@@ -15,38 +15,42 @@ void Hero::initHero(){
 
 //移動用の関数
 //金子凌也
-bool Hero::move( char key){
+int Hero::move( char key){
 	//上下左右に移動
 	//4*4以内で移動(0 <= x < 4 && 0 <= y < 4)
 	switch (key) {
 	case 'w'://上
-		if (y == 0)return false;
+		if (y == 0)return 0;
 		y--;
 		hp--;
 		break;
 
 	case 's'://下
-		if (y == ROOM_NUM -1)return false;
+		if (y == ROOM_NUM -1)return 0;
 		y++;
 		hp--;
 		break;
 
 	case 'a'://左
-		if (x == 0)return false;
+		if (x == 0)return 0;
 		x--;
 		hp--;
 		break;
 
 	case 'd'://右
-		if (x == ROOM_NUM -1 )return false;
+		if (x == ROOM_NUM -1 )return 0;
 		x++;
 		hp--;
 		break;
 
 	case 'h'://回復
-		if (potion == 0) return false;
-		potion--;
-		hp += USING_POTION_HP;
+		if (potion > 0){
+			potion--;
+			hp += USING_POTION_HP;
+		}
+		return HEAL;
+		break;
+	case'm':
 		break;
 	}
 	return true;

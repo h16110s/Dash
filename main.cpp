@@ -1,23 +1,36 @@
-#include "GameSystem.h"
-bool clear = false;
+ï»¿#include "GameSystem.h"
 
 int main(void)
 {
 	GameSystem gs;
 	gs.init();
+	while (true){
+		gs.printMenu();
+		system("cls");
 
-	//printMenu();
-	system("cls");
+		gs.mainLoop();
+		system("cls");
+		if (gs.Clear){
+			printf("ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ï¼ï¼\n");
+			int score = gs.calcScore();
+			printf("ã‚²ãƒ¼ãƒ ã‚¹ã‚³ã‚¢ã¯ãƒ»ãƒ»ãƒ»");
+			getchar();
+			printf("%dã§ã—ãŸï¼ï¼\n\n\n\n\n\n", score);
+		}
+		else {
+			printf("ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ãƒ»ãƒ»ãƒ»\n\n");
+		}
 
-	gs.mainLoop();
-	system("cls");
-	if (gs.Clear){
-		printf("ƒQ[ƒ€ƒNƒŠƒAII\n");
+		printf("ãƒªãƒˆãƒ©ã‚¤ï¼Ÿã€€Y/n -> ");
+		if (gs.getIs()){
+			continue;
+		}
+		else {
+			break;
+		}
 	}
-	else {
-		printf("ƒQ[ƒ€ƒI[ƒo[EEE\n");
-	}
-	printf("ƒQ[ƒ€I—¹‚Å‚·\n");
+	getchar();
+	printf("ã‚²ãƒ¼ãƒ çµ‚äº†ã§ã™\n");
 
 	return 0;
 }

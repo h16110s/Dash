@@ -10,7 +10,7 @@ typedef struct Hero
 	school roomNum;
 	int potion;
 	int issue;
-	bool move(char key);
+	int  move(char key);
 	void action(char mark);
 	void printState();
 	void damage(int value){ hp -= value; }
