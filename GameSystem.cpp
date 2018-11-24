@@ -59,7 +59,7 @@ void GameSystem::display(){
 	//インフォメーションウィンドウの作成
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	for (coord.Y = 0; coord.Y < MAX_WINDOW_HEIGHT - 4; coord.Y++){
-		coord.X = MAX_WINDOW_WIDTH - 50;
+		coord.X = MAX_WINDOW_WIDTH - 60;
 		SetConsoleCursorPosition(hStdout, coord);
 		switch (coord.Y)
 		{
@@ -78,7 +78,7 @@ void GameSystem::display(){
 			printf("|追加課題数	: %4d", hero.issue);
 			break;
 		case 4:
-			printf("|現在いるフロア　: %4d", hero.roomNum);
+			printf("|現在いるフロア　: %4s", getPosName(hero.roomNum));
 			break;
 		case 5:
 			printf("|PCの残りバッテリー: %4d％ ", hero.charge );
@@ -95,6 +95,8 @@ void GameSystem::display(){
 	SetConsoleCursorPosition(hStdout, coord);
 	printf("==========================================================================\n");
 	systemMessage();
+	//目標表示
+	printf("\n次の目標：%s\n", getTask());
 }
 
 
@@ -122,16 +124,17 @@ void GameSystem::mainLoop() {
 			case ISSUE://追加課題だったら
 				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "追加課題やればSとれるんじゃないか説！\n");
 				hero.issue++;
+				hero.heal(5);
 				dungeon.room[hero.roomNum].eliminateObject(hero.x, hero.y);
 				break;
 			case 'W': //WifiSpot
 				if (hero.charge > 80){
 					fflush(stdin);
-					strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "課題の提出をしますか? Y/N -> ");
-					hero.action(dungeon.room[hero.roomNum].pos[hero.y][hero.x]);
 					system("cls");
+					hero.action(dungeon.room[hero.roomNum].pos[hero.y][hero.x]);
+					strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "課題の提出をしますか? Y/n -> ");
 					display();
-					if (getchar() == 'Y' || getchar() == 'y'){
+					if (getIs()){
 						submit = true;
 						strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "課題が提出されました。");
 					}
@@ -307,8 +310,6 @@ void GameSystem::printRule() {
 }
 
 
-
-
 int GameSystem::calcScore(){
 	int scoreHP = (hero.hp * 5);
 	printf("scoreHP : %d\n", scoreHP);
@@ -339,10 +340,52 @@ bool GameSystem::getIs(){
 			break;
 		case 'n':
 		case 'N':
+			return false;
 			break;
 		default:
 			continue;
 		}
 	}
 	return false;
+}
+
+char* GameSystem::getTask(){
+	if (hero.charge == 0){
+		return "PCの充電をしましょう";
+	}
+	else if (!submit){
+		return "課題の提出をするためにWi-Fiが使える場所（W）に行こう";
+	}
+	else if (!Clear){
+		return "ボスの部屋に向え！";
+	}
+}
+
+char* GameSystem::getPosName(school floor){
+	switch (floor)
+	{
+	case wifiSpot:
+		return "WiFiがつかえる";
+	case central:
+		return "朝の調べ";
+	case busStop:
+		return "八王子行きのバス停";
+	case plaza:
+		return "中央広場";
+	case chargeSpot:	
+		return "なんかあの～あそこっすわ";
+	case leftPath1:
+	case rightPath1:	
+		return "通路１";
+	case leftPath2:	
+	case rightPath2:	
+		return "通路２";
+	case katakura:	
+		return "かたけん";
+	case bossRoom:	
+		return "ぼすのへや";
+	default:
+		break;
+	}
+	return "\0";
 }

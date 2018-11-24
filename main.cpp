@@ -1,10 +1,8 @@
 ﻿#include "GameSystem.h"
-
-int main(void)
-{
+int main(void){
 	GameSystem gs;
-	gs.init();
 	while (true){
+		gs.init();
 		gs.printMenu();
 		system("cls");
 
@@ -34,3 +32,4 @@ int main(void)
 
 	return 0;
 }
+

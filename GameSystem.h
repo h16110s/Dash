@@ -13,6 +13,8 @@ typedef struct GameSystem {
 	bool submit;
 	char sysMsg[SYS_MSG_MAXLENGTH];
 	//GameSystem Function=======
+	char* getTask();
+	char* getPosName(school floor);
 	void init();
 	void display();
 	char inputKeyBoard();

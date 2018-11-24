@@ -14,6 +14,7 @@ typedef struct Hero
 	void action(char mark);
 	void printState();
 	void damage(int value){ hp -= value; }
+	void heal(int value){ hp += value; }
 	void initHero();
 } Hero;
 //bool move(Hero hero, char key);

@@ -1,6 +1,6 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-#define ROOM_NUM 6
+#define ROOM_NUM 4
 #define OBJECT 5
 #define MAX_ROOM 11
 #define SYS_MSG_MAXLENGTH 100
