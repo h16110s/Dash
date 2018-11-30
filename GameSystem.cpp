@@ -47,7 +47,6 @@ void GameSystem::init() {
 	srand((unsigned)time(NULL));
 }
 
-
 //表示関数
 //齊藤裕仁
 void GameSystem::display(){
@@ -103,6 +102,124 @@ void GameSystem::display(){
 	
 }
 
+//マップ移動用の関数
+//齊藤裕仁
+bool GameSystem::mapMove(char mark) {
+	switch (mark) {
+		//Gate01
+	case 'a':
+		hero.moveRoom(plaza);
+		hero.movePos(hero.y, 0);
+		return true;
+	case 'b':
+		hero.moveRoom(busStop);
+		hero.movePos(hero.y, 3);
+		return true;
+
+		//Gate12
+	case 'c':
+		hero.moveRoom(central);
+		hero.movePos(3, hero.x);
+		return true;
+	case 'd':
+		hero.moveRoom(plaza);
+		hero.movePos(0, hero.x);
+		return true;
+
+		//Gate23
+	case 'e':
+		hero.moveRoom(wifiSpot);
+		hero.movePos(3, hero.x);
+		return true;
+	case 'f':
+		hero.moveRoom(plaza);
+		hero.movePos(0, hero.x);
+		return true;
+
+		//Gate24
+	case 'g':
+		hero.moveRoom(chargeSpot);
+		hero.movePos(hero.y, 0);
+		return true;
+	case 'h':
+		hero.moveRoom(plaza);
+		hero.movePos(hero.y, 3);
+		return true;
+
+		//Gate25
+	case 'i':
+		hero.moveRoom(leftPath1);
+		hero.movePos(0, 3);
+		return true;
+	case 'j':
+		hero.moveRoom(plaza);
+		hero.movePos(3, 1);
+		return true;
+
+		//Gate26
+	case 'k':
+		hero.moveRoom(rightPath1);
+		hero.movePos(0, 0);
+		return true;
+	case 'l':
+		hero.moveRoom(plaza);
+		hero.movePos(3, 2);
+		return true;
+
+		//Gate57
+	case 'm':
+		hero.moveRoom(leftPath2);
+		hero.movePos(0, hero.x);
+		return true;
+	case 'n':
+		hero.moveRoom(leftPath1);
+		hero.movePos(3, hero.x);
+		return true;
+
+		//Gate68
+	case 'o':
+		hero.moveRoom(rightPath2);
+		hero.movePos(0, hero.x);
+		return true;
+	case 'p':
+		hero.moveRoom(rightPath1);
+		hero.movePos(3, 0);
+		return true;
+
+		//Gate59
+	case 'q':
+		hero.moveRoom(katakura);
+		hero.movePos(0, 1);
+		return true;
+	case 'r':
+		hero.moveRoom(leftPath2);
+		hero.movePos(3, 3);
+		return true;
+
+		//Gate89
+	case 's':
+		hero.moveRoom(katakura);
+		hero.movePos(0, 2);
+		return true;
+	case 't':
+		hero.moveRoom(rightPath2);
+		hero.movePos(3, 0);
+		return true;
+
+		//Gate910
+	case 'u':
+		hero.moveRoom(bossRoom);
+		hero.movePos(0, hero.x);
+		return true;
+	case 'v':
+		hero.moveRoom(katakura);
+		hero.movePos(3, hero.x);
+		return true;
+	default:
+		return false;
+	}
+}
+
 
 //ゲームシステムのメインループ
 //齊藤裕仁
@@ -111,10 +228,17 @@ void GameSystem::mainLoop() {
 	while (!Clear && hero.hp > 0) {
 		//操作
 		int heroAction = hero.move(inputKeyBoard());
-		if (heroAction == HEAL){
+
+		//回復操作がされたとき
+		if (heroAction == HEALING){
 			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "回復しました。\n");
 		}
-		else if (heroAction != 0) {
+		else if (heroAction == HEALFAILD) {
+			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "回復できぬ！？\n");
+		}
+
+		//移動が成功しているとき
+		else if (heroAction == MOVE) {
 			switch (dungeon.room[hero.roomNum].pos[hero.y][hero.x]) {
 			case ENEMY://敵だったら
 				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "邪魔をされた　行動可能回数-2\n");
@@ -135,14 +259,17 @@ void GameSystem::mainLoop() {
 				if (hero.charge > 80){
 					fflush(stdin);
 					system("cls");
-					hero.action(dungeon.room[hero.roomNum].pos[hero.y][hero.x]);
 					strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "課題の提出をしますか? Y/n -> ");
 					display();
 					if (getIs()){
 						submit = true;
 						strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "課題が提出されました。");
 					}
-					else continue;
+					else {
+						submit = true;
+						strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "出す気がなくても、完成してなくても...出す！！");
+					}
+						;
 				}
 				else {
 					strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "PCを充電しないと提出できんな");
@@ -156,11 +283,15 @@ void GameSystem::mainLoop() {
 				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "何もなかった\n");
 				break;
 			}
-			hero.action(dungeon.room[hero.roomNum].pos[hero.y][hero.x]);
+
+			if (mapMove(dungeon.room[hero.roomNum].pos[hero.y][hero.x])) {
+				strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "部屋を移動しました。\n");
+			}
 		}
 		else{ 
 			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "前見て歩け\n"); 
 		}
+
 
 		system("cls");
 		display();
@@ -369,7 +500,7 @@ bool GameSystem::getIs(){
 	return false;
 }
 
-char* GameSystem::getTask(){
+const char* GameSystem::getTask(){
 	if (hero.charge == 0){
 		return "PCの充電をしましょう";
 	}
@@ -381,7 +512,7 @@ char* GameSystem::getTask(){
 	}
 }
 
-char* GameSystem::getPosName(school floor){
+const char* GameSystem::getPosName(school floor){
 	switch (floor)
 	{
 	case wifiSpot:

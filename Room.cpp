@@ -41,8 +41,40 @@ void Room::printRoom(){
 			case NONE:
 				printf("%2c|", '  ');
 				break;
+			case 'a':
+			case 'g':
+				printf("%2s|","Å®");
+				break;
+			case 'b':
+			case 'h':
+				printf("%2s|", "Å©");
+				break;
+			case 'e':
+			case 'c':
+			case 'j':
+			case 'l':
+			case 'n':
+			case 'p':
+			case 'r':
+			case 't':
+			case 'v':
+				printf("%2sl", "Å™");
+				break;
+			case 'f':
+			case 'd':
+			case 'i':
+			case 'k':
+			case 'm':
+			case 'o':
+			case 'q':
+			case 's':
+			case 'u':
+				printf("%2s|", "Å´");
+				break;
+						
 			default:
-				printf("%2cl",pos[i][j]);
+
+				printf("%2c|",pos[i][j]);
 				break;
 			}
 		}

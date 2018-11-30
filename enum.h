@@ -12,3 +12,10 @@ enum school {
 	katakura,		//9
 	bossRoom,		//10
 };
+
+enum Action {
+	HEALING,
+	HEALFAILD,
+	MOVE,
+	MOVEFAILD,
+};
