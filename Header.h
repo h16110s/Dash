@@ -7,7 +7,7 @@
 #define MAX_WINDOW_WIDTH 100
 #define MAX_WINDOW_HEIGHT 20
 #define USING_POTION_HP	15
-#define MAX_QUIZ_NUM 10
+#define MAX_QUIZ_NUM 14
 #define MAX_STRINGS 100;
 //=======================
 #define NONE 0

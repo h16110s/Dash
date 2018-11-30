@@ -29,6 +29,9 @@ void GameSystem::Quiz_Set(){
 		fscanf(fp, "%d", &(quiz[i].answer));
 		quiz[i].already = false;
 	}
+	//ボーナスクイズの読み込み
+	fscanf(fp, "%s", &(quiz[i].question));
+	fscanf(fp, "%s", &(quiz[i].ans));
 }
 
 
@@ -94,9 +97,10 @@ void GameSystem::display(){
 	coord.Y = MAX_WINDOW_HEIGHT - 4;
 	SetConsoleCursorPosition(hStdout, coord);
 	printf("==========================================================================\n");
+	printf("次の目標：%s\n", getTask());
 	systemMessage();
 	//目標表示
-	printf("\n次の目標：%s\n", getTask());
+	
 }
 
 
@@ -165,7 +169,6 @@ void GameSystem::mainLoop() {
 				system("cls");
 				Clear = battle();
 		}
-
 	}
 }
 
@@ -176,6 +179,10 @@ void GameSystem::printMenu() {
 		printf("==================================================\n");
 		printf("		  単位DASH\n");
 		printf("==================================================\n");
+		printf("操作");
+		printf("w:上　s:下　a:左　d:右　で動く\n");
+		printf("矢印キーでもできる（はず！！！）\n");
+		printf("その他の動作　H:回復\n\n");
 		printf("     ゲームスタート : 1         ルール説明：2 \n");
 		printf("-> ");
 		char input = getchar();
@@ -199,7 +206,16 @@ char GameSystem::inputKeyBoard() {
 	while (1) {
 		if (_kbhit()) {
 			int ch = _getch();
+			// 矢印キー入力
+			if (ch == 0xE0){
+				ch = _getch();
+				if (ch == 0x48) ch = 'w';
+				if (ch == 0x50) ch = 's';
+				if (ch == 0x4B) ch = 'a';
+				if (ch == 0x4D) ch = 'd';
+			}
 			switch ((char)ch) {
+			//許可入力
 			case 'w':
 			case 's':
 			case 'a':
@@ -214,6 +230,7 @@ char GameSystem::inputKeyBoard() {
 		}
 	}
 }
+
 Quiz GameSystem::getQuiz(){
 	for (int i = 0; i < MAX_QUIZ_NUM; i++){
 		int n = rand() % MAX_QUIZ_NUM;
@@ -222,25 +239,23 @@ Quiz GameSystem::getQuiz(){
 		}
 		else {
 			quiz[n].already = true;
-			//printf("%d", n);
 			return quiz[n];
 		}
 	}
 	printf("問題足りないっすわ");
 }
 
-
 bool GameSystem::battle(){
 	Quiz q;
 	int bossHP = 100;
 	int count = 0;
+	int damage = 0;
 	while (1){
 		if (bossHP <= 0)	return true;
 		else if (hero.hp <= 0){
 			Clear = true;
 			return false;
 		}
-
 		hero.printState();
 		printf("========================================\n");
 		printf("ボスHP：%4d\n", bossHP);
@@ -259,20 +274,25 @@ bool GameSystem::battle(){
 		//あってるー＞ボスのHPを減らす
 		//間違ってるー＞主人公のHPを減らす
 		if (input == q.answer){
-			printf("正解！\n");
 			bossHP -= 15;
 		}
 		else {
-			printf("残念\n");
 			//printf("%d\n", q.answer);
 			//printf("%d\n",input);
 			hero.damage(10);
+			damage -= 0;
 		}
 		//==============
-		getchar();
 		fflush(stdin);
 		system("cls");
 	}
+	//if (damage == 0){
+	//	system("cls");
+	//	printf("================ボーナス問題！！＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n");
+	//	printf("%s\n",quiz[MAX_QUIZ_NUM].question);
+	//	getchar();
+	//}
+	return true;
 }
 
 
@@ -302,7 +322,7 @@ void GameSystem::printRule() {
 	printf("ボス戦はクイズ形式になります\n・間違えるとHPが10減少\n・3問正解でボスに勝利！\n\n");
 	getchar();
 
-	printf("最後に、行動可能回数(HP)と課題の提出状況(追加課題のも含む)を加味し、\nスコアが算出されます。\n");
+	printf("最後に、行動可能回数(HP)と課題の提出状況(追加課題のも含む)を加味し、\nスコアが算出されます。\nクリアするまで頑張ってください。");
 	getchar();
 
 	printf("さぁ、君は工科太郎の単位を救うことはできるのか？\n");
@@ -373,7 +393,7 @@ char* GameSystem::getPosName(school floor){
 	case plaza:
 		return "中央広場";
 	case chargeSpot:	
-		return "なんかあの～あそこっすわ";
+		return "充電ポイント";
 	case leftPath1:
 	case rightPath1:	
 		return "通路１";
