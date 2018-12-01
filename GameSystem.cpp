@@ -387,8 +387,7 @@ bool GameSystem::battle(){
 	int count = 0;
 	int damage = 0;
 	while (1){
-		
-		//system("cls");
+		system("cls");
 		if (bossHP <= 0)	return true;
 		else if (hero.hp <= 0){
 			Clear = true;
@@ -422,9 +421,6 @@ bool GameSystem::battle(){
 			hero.damage(10);
 			damage -= 0;
 		}
-		//==============
-		fflush(stdin);
-		getchar();
 	}
 	//if (damage == 0){
 	//	system("cls");
