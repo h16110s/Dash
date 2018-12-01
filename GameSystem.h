@@ -29,5 +29,6 @@ typedef struct GameSystem {
 	int calcScore();
 	bool getIs();
 	int choice();
+	bool isEnterBossRoom();
 	//=====================
 } GameSystem;

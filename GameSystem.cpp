@@ -292,13 +292,13 @@ void GameSystem::mainLoop() {
 			strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "前見て歩け\n"); 
 		}
 
-
 		system("cls");
-		display();
-		//ボス部屋ならば
-		if (hero.roomNum == bossRoom && submit){
-				system("cls");
-				Clear = battle();
+		//ボス挑戦権があれば
+		if (hero.roomNum == bossRoom && submit && isEnterBossRoom()){
+			Clear = battle();
+		}
+		else {
+			display();
 		}
 	}
 }
@@ -322,6 +322,11 @@ void GameSystem::printMenu() {
 		}
 		else if (input == '1') {
 			printf("ゲーム開始！！\n");
+			break;
+		}
+		else if (input == '3') {
+			hero.moveRoom(katakura);
+			submit = true;
 			break;
 		}
 		else {
@@ -382,6 +387,8 @@ bool GameSystem::battle(){
 	int count = 0;
 	int damage = 0;
 	while (1){
+		
+		//system("cls");
 		if (bossHP <= 0)	return true;
 		else if (hero.hp <= 0){
 			Clear = true;
@@ -405,17 +412,19 @@ bool GameSystem::battle(){
 		//あってるー＞ボスのHPを減らす
 		//間違ってるー＞主人公のHPを減らす
 		if (input == q.answer){
+			printf("正解！\n");
 			bossHP -= 15;
 		}
 		else {
 			//printf("%d\n", q.answer);
 			//printf("%d\n",input);
+			printf("不正解！！ライフで受けろ！\n");
 			hero.damage(10);
 			damage -= 0;
 		}
 		//==============
 		fflush(stdin);
-		system("cls");
+		getchar();
 	}
 	//if (damage == 0){
 	//	system("cls");
@@ -498,6 +507,21 @@ bool GameSystem::getIs(){
 		}
 	}
 	return false;
+}
+
+bool GameSystem::isEnterBossRoom()
+{
+	printf("ボスの部屋に入ります。\n");
+	printf("ボス戦に挑戦すると回復不能、戻ってもこれませぬ\n");
+	printf("ボス戦に挑みますかな？\n Y/n? -> ");
+	if (!getIs()) {
+		system("cls");
+		hero.moveRoom(katakura);
+		hero.movePos(3, hero.x);
+		return false;
+	}
+	system("cls");
+	return true;
 }
 
 const char* GameSystem::getTask(){
