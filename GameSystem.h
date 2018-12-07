@@ -12,6 +12,9 @@ typedef struct GameSystem {
 	bool Clear;
 	bool submit;
 	char sysMsg[SYS_MSG_MAXLENGTH];
+
+	int score[10];
+	char name[10][100];
 	//GameSystem Function=======
 	const char* getTask();
 	const char* getPosName(school floor);
@@ -30,5 +33,9 @@ typedef struct GameSystem {
 	bool getIs();
 	int choice();
 	bool isEnterBossRoom();
+	void readRanking();
+	void writeRanking();
+	void addRanking(char inName[100], int inScore);
+	void viewRanking();
 	//=====================
 } GameSystem;

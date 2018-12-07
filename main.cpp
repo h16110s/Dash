@@ -14,6 +14,17 @@ int main(void){
 			printf("ゲームスコアは・・・");
 			getchar();
 			printf("%dでした！！\n\n\n\n\n\n", score);
+
+			printf("スコアを残しますか？Y/n -> ");
+			if (gs.getIs()){
+				char n[MAX_NAME_LENGTH];
+				printf("名前を入力してくだちい ->   ");
+				scanf_s("%s", n, MAX_NAME_LENGTH);
+				gs.addRanking(n, score);
+				gs.writeRanking();
+				gs.readRanking();
+				printf("ランキングに追加しました。\n\n\n");
+			}
 		}
 		else {
 			printf("ゲームオーバー・・・\n\n");

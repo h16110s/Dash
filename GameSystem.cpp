@@ -17,7 +17,6 @@ void GameSystem::Quiz_Set(){
 		printf("クイズファイルがありません。\n");
 		exit(0);
 	}
-
 	for (i = 0; i < MAX_QUIZ_NUM; i++){
 		//問題文
 		fscanf(fp, "%s", &(quiz[i].question));
@@ -29,9 +28,6 @@ void GameSystem::Quiz_Set(){
 		fscanf(fp, "%d", &(quiz[i].answer));
 		quiz[i].already = false;
 	}
-	//ボーナスクイズの読み込み
-	fscanf(fp, "%s", &(quiz[i].question));
-	fscanf(fp, "%s", &(quiz[i].ans));
 }
 
 
@@ -45,6 +41,7 @@ void GameSystem::init() {
 	Quiz_Set();
 	strcpy_s(sysMsg, SYS_MSG_MAXLENGTH, "");
 	srand((unsigned)time(NULL));
+	readRanking();
 }
 
 //表示関数
@@ -54,13 +51,21 @@ void GameSystem::display(){
 	HANDLE hStdout;
 	//出力用の部屋を生成
 	Room disp;
+
+	//HPバーの表示
+	printf("HP:");
+	for (int i = 0; i < hero.hp && i < 30; i++){
+		printf("■");
+	}
+
+	printf("\n");
 	disp.roomCopy(dungeon.room[hero.roomNum]);
 	disp.pos[hero.y][hero.x] = HERO;
 	disp.printRoom();
 
 	//インフォメーションウィンドウの作成
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-	for (coord.Y = 0; coord.Y < MAX_WINDOW_HEIGHT - 4; coord.Y++){
+	for (coord.Y = 1; coord.Y < MAX_WINDOW_HEIGHT - 4; coord.Y++){
 		coord.X = MAX_WINDOW_WIDTH - 60;
 		SetConsoleCursorPosition(hStdout, coord);
 		switch (coord.Y)
@@ -306,6 +311,7 @@ void GameSystem::mainLoop() {
 //ゲームのメニュー表示
 //齊藤裕仁
 void GameSystem::printMenu() {
+	system("cls");
 	while (1) {
 		printf("==================================================\n");
 		printf("		  単位DASH\n");
@@ -314,8 +320,9 @@ void GameSystem::printMenu() {
 		printf("w:上　s:下　a:左　d:右　で動く\n");
 		printf("矢印キーでもできる（はず！！！）\n");
 		printf("その他の動作　H:回復\n\n");
-		printf("     ゲームスタート : 1         ルール説明：2 \n");
+		printf("  ゲームスタート : 1     ルール説明：2    ランキング表示:3　 \n");
 		printf("-> ");
+		fflush(stdin);
 		char input = getchar();
 		if (input == '2') {
 			printRule();
@@ -324,14 +331,18 @@ void GameSystem::printMenu() {
 			printf("ゲーム開始！！\n");
 			break;
 		}
-		else if (input == '3') {
+		else if (input == '4') {
 			hero.moveRoom(katakura);
 			submit = true;
 			break;
 		}
+		else if (input == '3'){
+			viewRanking();
+		}
 		else {
 			printf("関係のないものを押したな？\n");
-			printf("ゲームスタートだ\n");
+			printf("ゲームスタートだ\nENTER ->");
+			_getch();
 			break;
 		}
 	}
@@ -412,7 +423,7 @@ bool GameSystem::battle(){
 		//間違ってるー＞主人公のHPを減らす
 		if (input == q.answer){
 			printf("正解！\n");
-			bossHP -= 15;
+			bossHP -= 20;
 		}
 		else {
 			//printf("%d\n", q.answer);
@@ -559,4 +570,58 @@ const char* GameSystem::getPosName(school floor){
 		break;
 	}
 	return "\0";
+}
+
+
+void GameSystem::readRanking(){
+	FILE *fp;
+	fopen_s(&fp, "./Ranking.txt", "r");
+	if (fp == NULL){
+		printf("ランキングファイルがありません。\n");
+		exit(0);
+	}
+	for (int i = 0; i < 10; i++){
+		fscanf(fp, "%s %d", &name[i], &score[i]);
+	}
+	fclose(fp);
+}
+
+void GameSystem::writeRanking(){
+	FILE *fp;
+	fopen_s(&fp, "./Ranking.txt", "w");
+	for (int i = 0; i < 10; i++){
+		fprintf_s(fp,"%s %d\n", &name[i], score[i]);
+	}
+	fclose(fp);
+}
+
+void GameSystem::addRanking(char inName[MAX_NAME_LENGTH], int inScore){
+	for (int i = 0; i < 10; i++){
+		if (inScore > score[i]){
+			int tmpscore = score[i];
+			char tmpname[MAX_NAME_LENGTH];
+			strcpy_s(tmpname, MAX_NAME_LENGTH, name[i]);
+			score[i] = inScore;
+			strcpy_s(name[i], MAX_NAME_LENGTH, inName);
+			for (i++; i < 10; i++){
+				int before = score[i];
+				char beforename[MAX_NAME_LENGTH];
+				strcpy_s(beforename, MAX_NAME_LENGTH, name[i]);
+				score[i] = tmpscore;
+				strcpy_s(name[i], MAX_NAME_LENGTH, tmpname);
+				tmpscore = before;
+				strcpy_s(tmpname, MAX_NAME_LENGTH, beforename);
+			}
+		}
+	}
+}
+
+void GameSystem::viewRanking(){
+	system("cls");
+	for (int i = 0; i < 10; i++){
+		printf("%2d 位　%s さん　%4d 点\n", i+1, name[i], score[i]);
+	}
+	printf("ENTER ->");
+	_getch();
+	system("cls");
 }
